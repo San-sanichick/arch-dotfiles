@@ -1,0 +1,13 @@
+[http]
+	sslVerify = false
+[credential]
+	credentialStore = gpg
+	helper =
+	helper = /usr/bin/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+[credential "https://git.digital.rt.ru"]
+	provider = generic
+[user]
+	name = San-sanichick
+	email = sansanichick@gmail.com
