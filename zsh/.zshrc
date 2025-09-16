@@ -71,7 +71,10 @@ TERMINAL="ghostty"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    git
+    zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,3 +122,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # Created by `pipx` on 2025-02-19 03:47:53
 export PATH="$PATH:/home/sansanichick/.local/bin"
+
