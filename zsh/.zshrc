@@ -123,3 +123,5 @@ export NVM_DIR="$HOME/.nvm"
 # Created by `pipx` on 2025-02-19 03:47:53
 export PATH="$PATH:/home/sansanichick/.local/bin"
 
+export PATH="$PATH:/home/sansanichick/installers/glsl"
+export PATH="$PATH:/home/sansanichick/installers/luals/bin"
