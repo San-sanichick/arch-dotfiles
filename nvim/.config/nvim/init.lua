@@ -377,6 +377,11 @@ local servers = {
         },
     },
     tsc = {},
+    html = {},
+    emmet_language_server = {},
+    cssls = {},
+    glsl_analyzer = {},
+    bashls = {},
 }
 
 local ensure_installed = vim.tbl_keys(servers or {})
@@ -507,10 +512,34 @@ vim.keymap.set("n", "<C-j>", "<C-D>zz")
 vim.keymap.set("n", "<C-h>", "b")
 vim.keymap.set("n", "<C-l>", "w")
 
+-- git
+vim.keymap.set("n", "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>")
+
+-- copy/paste
+vim.keymap.set("v", "p", "P")
+vim.keymap.set("v", "y", "ygv<Esc>")
+
+-- history
+vim.keymap.set("n", "<C-z>", "u")
+vim.keymap.set("n", "<C-y>", "<C-R>")
+
+-- comment
+vim.keymap.set('n', '<C-/>', 'gcc', { remap = true, desc = 'Toggle comment line' })
+vim.keymap.set('n', '<C-_>', 'gcc', { remap = true, desc = 'Toggle comment line' })
+
+-- Visual Mode: Toggle comment for the selected block
+vim.keymap.set('x', '<C-/>', 'gc', { remap = true, desc = 'Toggle comment selection' })
+vim.keymap.set('x', '<C-_>', 'gc', { remap = true, desc = 'Toggle comment selection' })
+
+-- save
+vim.keymap.set("n", "<C-s>", "<cmd>:w<cr>")
+
 -- tab
 vim.keymap.set("n", "<Tab>", ">>")
 vim.keymap.set("n", "<S-Tab>", "<<")
 vim.keymap.set("i", "<S-Tab>", "<C-d>")
+vim.keymap.set("v", "<S-Tab>", "<gv")
+vim.keymap.set("v", "<Tab>", ">gv")
 
 -- splits
 vim.keymap.set("n", "<leader>w", "<C-w>s", { desc = "Split horizontal" })
