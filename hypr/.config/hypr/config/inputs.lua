@@ -2,8 +2,9 @@
 
 hl.config({
     input = {
+	--kb_file = "/home/sansanichick/.config/hypr/custom_keymap.xkb",
 	kb_layout = "us, ru",
-	kb_options="grp:ctrl_shift_toggle",
+	kb_options="grp:alt_shift_toggle",
         -- sensitivity = -0.25,
         accel_profile = "flat",
 	touchpad = {
