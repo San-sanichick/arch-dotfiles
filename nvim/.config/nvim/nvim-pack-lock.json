@@ -92,6 +92,10 @@
       "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",
       "src": "https://github.com/folke/snacks.nvim"
     },
+    "tabular": {
+      "rev": "12437cd1b53488e24936ec4b091c9324cafee311",
+      "src": "https://github.com/godlygeek/tabular"
+    },
     "telescope-fzf-native.nvim": {
       "rev": "b25b749b9db64d375d782094e2b9dce53ad53a40",
       "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
@@ -111,6 +115,10 @@
     "trouble.nvim": {
       "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
       "src": "https://github.com/folke/trouble.nvim"
+    },
+    "visual-surround.nvim": {
+      "rev": "79ad15fde05006093ed971808158efb62a77944a",
+      "src": "https://github.com/NStefan002/visual-surround.nvim"
     },
     "vitesse.nvim": {
       "rev": "1e00ee10a7ac23426684f43be80eb3edf92c082c",

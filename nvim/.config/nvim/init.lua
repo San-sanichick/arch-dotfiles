@@ -210,14 +210,47 @@ require("snacks").setup({
             explorer = {
                 enabled = false,
             }
-        }
+        },
+        layouts = {
+            telescope = {
+                reverse = false, -- true to put the input bar at the top
+                layout = {
+                    box = "horizontal",
+                    backdrop = false,
+                    width = 0.9, -- Default width ratio (80% of screen)
+                    height = 0.9, -- Default height ratio
+                    {
+                        box = "vertical",
+                        {
+                            win = "list",
+                            title = " Results ",
+                            title_pos = "center",
+                            border = true
+                        },
+                        {
+                            win = "input",
+                            height = 1,
+                            border = true,
+                            title = "{title} {live} {flags}",
+                            title_pos = "center"
+                        },
+                    },
+                        win = "preview",
+                        title = "{preview:Preview}",
+                        width = 0.65,
+                        border = true,
+                        title_pos = "center",
+                    },
+                },
+            },
+        },
     },
     bigfile = { enabled = false },
     quickfile = { enabled = false },
     words = { enabled = false },
     terminal = { enabled = false },
     toggle = { enabled = false },
-    lazygit = { enabled = true },
+    lazygit = { enabled = false },
     -- git = { enabled = false },
     gitbrowse = { enabled = false },
     debug = { enabled = false },
@@ -230,6 +263,7 @@ vim.pack.add({ gh "folke/trouble.nvim" })
 
 vim.pack.add({ gh "lewis6991/gitsigns.nvim" })
 vim.pack.add({ gh "folke/which-key.nvim" })
+
 vim.pack.add({ gh "nvim-mini/mini.nvim" })
 require("mini.surround").setup()
 require("mini.trailspace").setup()
@@ -246,6 +280,12 @@ require("mini.move").setup({
         reindent_linewise = true,
     }
 })
+
+vim.pack.add({ gh "godlygeek/tabular" })
+
+vim.pack.add({ gh "NStefan002/visual-surround.nvim" })
+require("visual-surround").setup({ })
+
 
 vim.pack.add({ gh "nvim-lualine/lualine.nvim" })
 require("lualine").setup({
@@ -339,18 +379,18 @@ require("fff").setup({
     }
 })
 
----@type (string|vim.pack.Spec)[]
-local telescope_plugins = {
-  gh 'nvim-lua/plenary.nvim',
-  gh 'nvim-telescope/telescope.nvim',
-  gh 'nvim-telescope/telescope-ui-select.nvim',
-}
-if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
-
---require("telescope").setup({})
-
--- NOTE: You can install multiple plugins at once
-vim.pack.add(telescope_plugins)
+-- ---@type (string|vim.pack.Spec)[]
+-- local telescope_plugins = {
+--   gh 'nvim-lua/plenary.nvim',
+--   gh 'nvim-telescope/telescope.nvim',
+--   gh 'nvim-telescope/telescope-ui-select.nvim',
+-- }
+-- if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
+--
+-- --require("telescope").setup({})
+--
+-- -- NOTE: You can install multiple plugins at once
+-- vim.pack.add(telescope_plugins)
 --pcall(require('telescope').load_extension, 'fzf')
 
 -- lsp
@@ -498,7 +538,7 @@ require('nvim-treesitter').install(parsers)
   })
 
 -- KEYMAPS
-vim.keymap.set("n", "<Esc>", "<cmd>nohsearch<CR>")
+vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>")
 
 -- tree
 vim.keymap.set("n", "<C-b>", "<cmd>Neotree toggle<CR>")
@@ -541,6 +581,23 @@ vim.keymap.set("i", "<S-Tab>", "<C-d>")
 vim.keymap.set("v", "<S-Tab>", "<gv")
 vim.keymap.set("v", "<Tab>", ">gv")
 
+-- align
+local function align()
+    vim.ui.input(
+        { prompt = "Align by: ", default = "" },
+        function(val)
+            if val == nil then
+                return
+            end
+
+            vim.cmd("Tabularize /" .. val)
+            local key = vim.api.nvim_replace_termcodes("<esc>", true, false, true)
+            vim.api.nvim_feedkeys(key, 'c', true)
+        end
+    )
+end
+vim.keymap.set('v', '<leader>v', function() align() end, { desc = "Align selection by a specific word" })
+
 -- splits
 vim.keymap.set("n", "<leader>w", "<C-w>s", { desc = "Split horizontal" })
 vim.keymap.set("n", "<leader>W", "<C-w>v", { desc = "Split vertical" })
@@ -553,6 +610,15 @@ vim.keymap.set("n", "<leader>j", "<C-w><Down>")
 vim.keymap.set("n", "<leader>h", "<C-w><Left>")
 vim.keymap.set("n", "<leader>l", "<C-w><Right>")
 
+-- tabs
+local bufferline = require("bufferline")
+vim.keymap.set("n", "<A-l>",  function() bufferline.cycle(1) end)
+vim.keymap.set("n", "<A-h>",  function() bufferline.cycle(-1) end)
+vim.keymap.set("n", ">",  "<cmd>BufferLineMoveNext<cr>")
+vim.keymap.set("n", "<",  "<cmd>BufferLineMovePrev<cr>")
+vim.keymap.set("n", "<C-w>",  function() bufferline.unpin_and_close() end)
+vim.keymap.set("n", "<leader>tw", function () bufferline.close_others() end)
+
 -- fff
 vim.keymap.set("n", "<C-p>", function () require("fff").find_files() end)
 
@@ -563,12 +629,15 @@ vim.keymap.set("n", "<leader>sd", "<cmd>SessionManager delete_session<CR>")
 -- LSP
 vim.keymap.set("n", "<leader>hh", function() vim.lsp.buf.hover() end)
 
-local ts = require("telescope.builtin")
-vim.keymap.set("n", "<C-A-o>", function() ts.lsp_document_symbols({ symbol_width = 40, show_line = false }) end)
-vim.keymap.set("n", "<F12>", function() ts.lsp_references({ fname_wdth = 50, show_line = false, layout_strategy='vertical' }) end)
-vim.keymap.set("n", "<S-F12>", function() ts.lsp_implementations({ fname_wdth = 50, show_line = false, layout_strategy='vertical' }) end)
-vim.keymap.set("n", "<A-F12>", function() ts.lsp_definitions({ fname_wdth = 50, show_line = false, layout_strategy='vertical' }) end)
-vim.keymap.set("n", "<C-f>", function() ts.current_buffer_fuzzy_find({ show_line = false }) end)
+local conf = {
+    layout = "telescope"
+}
+vim.keymap.set("n", "<C-A-o>", function() Snacks.picker.lsp_symbols(conf) end)
+vim.keymap.set("n", "<F12>", function() Snacks.picker.lsp_references(conf) end)
+vim.keymap.set("n", "<S-F12>", function() Snacks.picker.lsp_implementations(conf) end)
+vim.keymap.set("n", "<A-F12>", function() Snacks.picker.lsp_definitions(conf) end)
+vim.keymap.set("n", "<C-f>", function() Snacks.picker.lines() end)
+vim.keymap.set("n", "<C-A-f>", function() Snacks.picker.grep() end)
 
 -- diagnostics
 vim.keymap.set("n", "<C-d>", function() require("trouble").toggle("diagnostics") end)
