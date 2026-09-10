@@ -204,6 +204,7 @@ neotree.setup({
 
 })
 vim.pack.add({ gh "folke/snacks.nvim" })
+
 require("snacks").setup({
     picker = {
         sources = {
@@ -235,12 +236,11 @@ require("snacks").setup({
                             title_pos = "center"
                         },
                     },
-                        win = "preview",
-                        title = "{preview:Preview}",
-                        width = 0.65,
-                        border = true,
-                        title_pos = "center",
-                    },
+                    win = "preview",
+                    title = "{preview:Preview}",
+                    width = 0.65,
+                    border = true,
+                    title_pos = "center",
                 },
             },
         },
