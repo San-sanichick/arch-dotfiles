@@ -3,9 +3,10 @@
 
 hl.on("hyprland.start", function ()
     hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+    hl.exec_cmd("hyprctl setcursor Adwaita 24")
     hl.exec_cmd("noctalia")
     hl.exec_cmd("kwalletd6")
     hl.exec_cmd("xhost +SI:localuser:root")
     hl.exec_cmd("udiskie --tray")
-    hl.exec_cmd("hyprctl setcursor Adwaita 24")
+    hl.exec_cmd("flatpak run org.telegram.desktop")
 end)
