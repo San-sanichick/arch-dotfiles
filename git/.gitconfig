@@ -11,3 +11,5 @@
 [user]
 	name = San-sanichick
 	email = sansanichick@gmail.com
+[init]
+	defaultBranch = master

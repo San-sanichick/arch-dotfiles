@@ -107,11 +107,12 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
+path+=("$HOME/installers/luals/bin")
+
 alias cat="bat -n --color=always"
 alias ls="eza -1 --icons=always"
-
-path+=("$HOME/installers/luals/bin")
 alias j2me="bash $HOME/installers/j2me.sh"
+alias vim=nvim
 
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
@@ -125,3 +126,8 @@ export PATH="$PATH:/home/sansanichick/.local/bin"
 
 export PATH="$PATH:/home/sansanichick/installers/glsl"
 export PATH="$PATH:/home/sansanichick/installers/luals/bin"
+
+# export _JAVA_AWT_WM_NONREPARENTING=1
+export AWT_TOOLKIT=MToolkit
+
+path+=("$HOME/installers/ytdlp")
