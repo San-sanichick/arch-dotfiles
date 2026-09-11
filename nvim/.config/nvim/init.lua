@@ -411,7 +411,7 @@ require("mason-lspconfig").setup({
 
 local servers = {
     clangd = {
-        cmd = { "clangd", "--background-index", "--clang-tidy", "--query-driver=**/em++,**/clang*", "--log=verbose" },
+        cmd = { "clangd", "--background-index", "--clang-tidy", "--query-driver=**/*", "--log=verbose" },
         initialization_options = {
             fallback_flags = { '-std=c++17' },
         },

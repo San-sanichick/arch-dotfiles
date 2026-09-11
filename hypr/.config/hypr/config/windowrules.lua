@@ -2,6 +2,16 @@
 
 -- Generic floating position
 hl.window_rule({ match = { float = true }, center = true, persistent_size = true })
+hl.config({
+    general = {
+        snap = {
+            enabled = true,
+            window_gap = 15,
+            monitor_gap = 10,
+            border_overlap = false,
+        }
+    }
+})
 
 -- Picture-in-Picture
 hl.window_rule({
