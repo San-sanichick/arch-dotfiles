@@ -113,8 +113,9 @@ alias ls="eza -1 --icons=always"
 path+=("$HOME/installers/luals/bin")
 alias j2me="bash $HOME/installers/j2me.sh"
 
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+source <(fzf --zsh)
+# source /usr/share/fzf/key-bindings.zsh
+# source /usr/share/fzf/completion.zsh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -125,3 +126,4 @@ export PATH="$PATH:/home/sansanichick/.local/bin"
 
 export PATH="$PATH:/home/sansanichick/installers/glsl"
 export PATH="$PATH:/home/sansanichick/installers/luals/bin"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
