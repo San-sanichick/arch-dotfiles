@@ -2,14 +2,17 @@
 
 hl.config({
     input = {
-	--kb_file = "/home/sansanichick/.config/hypr/custom_keymap.xkb",
-	kb_layout = "us, ru",
-	kb_options="grp:alt_shift_toggle",
-        -- sensitivity = -0.25,
-        accel_profile = "flat",
-	touchpad = {
-	    natural_scroll = true,
-	}
+        --kb_file = "/home/sansanichick/.config/hypr/custom_keymap.xkb",
+        kb_layout = "us, ru",
+        kb_options="grp:alt_shift_toggle",
+            -- sensitivity = -0.25,
+            accel_profile = "flat",
+        touchpad = {
+            natural_scroll = true,
+        },
+
+        -- follow_mouse = 0,
+        -- float_switch_override_focus = 0,
     },
     -- Uncomment the section below to enable software cursors; this can help with cursor display or behavior issues
     -- cursor = {

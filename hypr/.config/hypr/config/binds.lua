@@ -58,7 +58,7 @@ local function zoomfunction(value)
     end
 end
 hl.bind(mainMod .. " + Minus", function() zoomfunction(-0.3) end, { repeating = true})
-hl.bind(mainMod .. " + Plus", function() zoomfunction(0.3) end, { repeating = true })
+hl.bind(mainMod .. " + Equal", function() zoomfunction(0.3) end, { repeating = true })
 
 --# Zoom with keypad
 hl.bind(mainMod .. " + code:82", function() zoomfunction(-0.3) end, { repeating = true })

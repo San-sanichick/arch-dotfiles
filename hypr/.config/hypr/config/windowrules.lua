@@ -18,7 +18,7 @@ hl.window_rule({
     match             = { title = "^([Pp]icture[-\\s]?[Ii]n[-\\s]?[Pp]icture)(.*)$" },
     float             = true,
     keep_aspect_ratio = true,
-    size              = { "max(monitor_w, monitor_h)*0.25", "min(monitor_w, monitor_h)*0.25" },
+    size              = { "max(monitor_w, monitor_h)*0.45", "min(monitor_w, monitor_h)*0.45" },
     pin               = true,
 })
 
@@ -58,7 +58,6 @@ hl.window_rule({
 -- Apps
 hl.window_rule({ match = { class = "^(.*\\.exe)$", float = true }, monitor = PRIMARY_MONITOR, center = true, fullscreen_state = 0 })
 hl.window_rule({ match = { class = "^(.*[Ll]auncher.*)$" }, float = true, monitor = PRIMARY_MONITOR })
-hl.window_rule({ match = { title = "^(AIMP)$" }, float = true })
 hl.window_rule({ match = { class = "^(vesktop|discord)$" }, monitor = PRIMARY_MONITOR })
 hl.window_rule({ match = { class = "^(.*[Cc]alc.*)$" }, float = true, size = { "max(monitor_w, monitor_h)*0.17", "min(monitor_w, monitor_h)*0.43" } })
 hl.window_rule({ match = { class = "^(org\\.kde\\.keditfiletype)$" }, float = true })
@@ -77,6 +76,29 @@ hl.window_rule({
         "max(20, min(cursor_y - 50, monitor_h - window_h + 20))" -- Y axis clamping
     },
 })
+
+hl.window_rule({
+    match = {
+        class = "^(Aimp)$",
+        title = "negative:^aimp$"
+    },
+    float = true,
+    rounding = 0,
+    border_size = 2,
+})
+
+hl.window_rule({
+    match = { 
+        class = "^(Aimp)$", 
+        title = "^(aimp)$",
+    },
+    float = true,
+    rounding = 0,
+    border_size = 0,
+
+    move = "(cursor_x+2) (cursor_y+2)",
+})
+
 
 -- Opacity Overrides
 local terminals = "^(kitty|ghostty|[Kk]onsole|Alacritty|gnome-terminal|xfce[0-9]?-terminal)$"

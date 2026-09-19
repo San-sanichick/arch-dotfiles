@@ -539,6 +539,7 @@ require('nvim-treesitter').install(parsers)
 
 -- KEYMAPS
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>")
+vim.keymap.set("n", "sd", "<S-s><Esc>")
 
 -- tree
 vim.keymap.set("n", "<C-b>", "<cmd>Neotree toggle<CR>")
@@ -566,6 +567,12 @@ vim.keymap.set("n", "<C-y>", "<C-R>")
 -- comment
 vim.keymap.set('n', '<C-/>', 'gcc', { remap = true, desc = 'Toggle comment line' })
 vim.keymap.set('n', '<C-_>', 'gcc', { remap = true, desc = 'Toggle comment line' })
+
+-- select
+vim.keymap.set("n", "<C-a>", "ggVG")
+
+-- restart
+vim.keymap.set("n", "<leader>rr", "<cmd>restart<CR>")
 
 -- Visual Mode: Toggle comment for the selected block
 vim.keymap.set('x', '<C-/>', 'gc', { remap = true, desc = 'Toggle comment selection' })
@@ -641,5 +648,19 @@ vim.keymap.set("n", "<C-A-f>", function() Snacks.picker.grep() end)
 
 -- diagnostics
 vim.keymap.set("n", "<C-d>", function() require("trouble").toggle("diagnostics") end)
+
+local function showDiagnosticPopup()
+    local current_cursor = vim.api.nvim_win_get_cursor(0)
+    local last_popup_cursor = vim.w.lsp_diagnostics_last_cursor or {nil, nil}
+
+    -- Show the popup diagnostics window,
+    -- but only once for the current cursor location (unless moved afterwards).
+    if not (current_cursor[1] == last_popup_cursor[1] and current_cursor[2] == last_popup_cursor[2]) then
+        vim.w.lsp_diagnostics_last_cursor = current_cursor
+        vim.diagnostic.open_float(nil, {scope="cursor"})
+    end
+end
+vim.keymap.set("n", "<leader>d", function() showDiagnosticPopup() end)
+
 
 vim.keymap.set("n", "<F2>", function() vim.lsp.buf.rename() end)
