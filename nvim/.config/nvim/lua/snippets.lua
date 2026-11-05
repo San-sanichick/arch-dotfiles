@@ -3,6 +3,10 @@ local s = ls.snippet
 local i = ls.insert_node
 local t = ls.text_node
 
+ls.add_snippets("cpp", {
+    s("po", t({ "#pragma once" }))
+})
+
 ls.add_snippets("vue", {
     s("template", {
         t({ "<template>", "\t" }),

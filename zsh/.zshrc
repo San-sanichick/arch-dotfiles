@@ -113,6 +113,7 @@ alias cat="bat -n --color=always"
 alias ls="eza -1 --icons=always"
 alias j2me="bash $HOME/installers/j2me.sh"
 alias vim=nvim
+alias opencode=$'EDITOR="nvim" opencode'
 
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh

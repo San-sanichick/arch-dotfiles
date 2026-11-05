@@ -96,11 +96,9 @@ local function gh(repo) return 'https://github.com/' .. repo end
 
 vim.pack.add({ gh "tjdevries/colorbuddy.nvim" })
 vim.pack.add({ gh "2nthony/vitesse.nvim" })
-vim.cmd.colorscheme("vitesse")
 
-
-require("vitesse").setup {
-    comment_italics = false,
+require("vitesse").setup({
+    comment_italics = true,
     transparent_background = false,
     transparent_float_background = false, -- aka pum(popup menu) background
 --    reverse_visual = false,
@@ -110,7 +108,11 @@ require("vitesse").setup {
 --    telescope_border_follow_float_background = false,
 --    -- diagnostic virtual text background, like error lens
 --    diagnostic_virtual_text_background = true,
-}
+})
+
+vim.cmd.colorscheme("vitesse")
+
+
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
@@ -402,12 +404,15 @@ vim.pack.add {
     gh 'mason-org/mason.nvim',
     gh 'mason-org/mason-lspconfig.nvim',
     gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
+    gh 'b0o/schemastore.nvim',
 }
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
     automatic_enable = true,
 })
+
+-- vim
 
 local servers = {
     clangd = {
@@ -422,6 +427,22 @@ local servers = {
     cssls = {},
     glsl_analyzer = {},
     bashls = {},
+    jsonls = {
+        settings = {
+            json = {
+                schemas = require("schemastore").json.schemas(),
+                validate = { enable = true },
+            }
+        }
+    },
+    yamlls = {
+        settings = {
+            yaml = {
+                schemas = require("schemastore").yaml.schemas(),
+                validate = { enable = true },
+            }
+        }
+    }
 }
 
 local ensure_installed = vim.tbl_keys(servers or {})
@@ -541,6 +562,9 @@ require('nvim-treesitter').install(parsers)
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>")
 vim.keymap.set("n", "sd", "<S-s><Esc>")
 
+-- trim
+vim.keymap.set("n", "<leader><leader>", function() MiniTrailspace.trim() end)
+
 -- tree
 vim.keymap.set("n", "<C-b>", "<cmd>Neotree toggle<CR>")
 
@@ -588,6 +612,16 @@ vim.keymap.set("i", "<S-Tab>", "<C-d>")
 vim.keymap.set("v", "<S-Tab>", "<gv")
 vim.keymap.set("v", "<Tab>", ">gv")
 
+local luasnip = require("luasnip")
+vim.api.nvim_create_autocmd("InsertLeave", {
+    callback = function()
+        if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]
+            and not luasnip.session.jump_active then
+            luasnip.unlink_current()
+        end
+    end
+})
+
 -- align
 local function align()
     vim.ui.input(
@@ -623,8 +657,8 @@ vim.keymap.set("n", "<A-l>",  function() bufferline.cycle(1) end)
 vim.keymap.set("n", "<A-h>",  function() bufferline.cycle(-1) end)
 vim.keymap.set("n", ">",  "<cmd>BufferLineMoveNext<cr>")
 vim.keymap.set("n", "<",  "<cmd>BufferLineMovePrev<cr>")
-vim.keymap.set("n", "<C-w>",  function() bufferline.unpin_and_close() end)
-vim.keymap.set("n", "<leader>tw", function () bufferline.close_others() end)
+vim.keymap.set("n", "<C-w>",  function() bufferline.unpin_and_close() end, { nowait = true })
+vim.keymap.set("n", "<leader>tw", function () bufferline.close_others() end, { nowait = true })
 
 -- fff
 vim.keymap.set("n", "<C-p>", function () require("fff").find_files() end)
@@ -639,10 +673,11 @@ vim.keymap.set("n", "<leader>hh", function() vim.lsp.buf.hover() end)
 local conf = {
     layout = "telescope"
 }
-vim.keymap.set("n", "<C-A-o>", function() Snacks.picker.lsp_symbols(conf) end)
-vim.keymap.set("n", "<F12>", function() Snacks.picker.lsp_references(conf) end)
-vim.keymap.set("n", "<S-F12>", function() Snacks.picker.lsp_implementations(conf) end)
-vim.keymap.set("n", "<A-F12>", function() Snacks.picker.lsp_definitions(conf) end)
+vim.keymap.set("n", "<C-A-o>", function() Snacks.picker.lsp_symbols() end)
+vim.keymap.set("n", "<F12>", function() Snacks.picker.lsp_references() end)
+vim.keymap.set("n", "<S-F12>", function() Snacks.picker.lsp_implementations() end)
+vim.keymap.set("n", "<A-F12>", function() Snacks.picker.lsp_definitions() end)
+vim.keymap.set("n", "<C-n>", function() vim.lsp.buf.code_action() end)
 vim.keymap.set("n", "<C-f>", function() Snacks.picker.lines() end)
 vim.keymap.set("n", "<C-A-f>", function() Snacks.picker.grep() end)
 
@@ -664,3 +699,5 @@ vim.keymap.set("n", "<leader>d", function() showDiagnosticPopup() end)
 
 
 vim.keymap.set("n", "<F2>", function() vim.lsp.buf.rename() end)
+
+vim.keymap.set("n", "<leader>lr", "<cmd>lsp restart<CR>")
